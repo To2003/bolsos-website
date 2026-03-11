@@ -4,12 +4,19 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
-export function Hero() {
+interface HeroProps {
+  image?: string // Prop opcional para la imagen de Sanity
+}
+
+export function Hero({ image }: HeroProps) {
+  // Si no viene imagen de Sanity, usa la local por defecto
+  const displayImage = image || "/hero-bag.jpg"
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Text Content */}
+          {/* Text Content - HARDCODED */}
           <div className="text-center lg:text-left">
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-tight text-foreground text-balance">
               Elegancia que define tu estilo
@@ -34,15 +41,15 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Hero Image */}
+          {/* Hero Image - DINÁMICA */}
           <div className="relative">
             <div className="aspect-[4/5] relative overflow-hidden bg-muted">
               <Image
-                src="/hero-bag.jpg"
-                alt="Bolso de diseño elegante"
+                src={displayImage} // URL de Sanity o local
+                alt="Bolso de diseño elegante - MAISON"
                 fill
                 className="object-cover"
-                priority
+                priority // Carga rápida para SEO
               />
             </div>
             <div className="absolute -bottom-6 -left-6 bg-card p-6 shadow-lg hidden md:block">

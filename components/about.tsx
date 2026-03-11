@@ -1,16 +1,23 @@
 import Image from "next/image"
 
-export function About() {
+interface AboutProps {
+  image?: string // Prop opcional para la imagen de Sanity
+}
+
+export function About({ image }: AboutProps) {
+  // Si no viene imagen de Sanity, usa la local por defecto
+  const displayImage = image || "/about-image.jpg"
+
   return (
     <section id="nosotros" className="py-24 lg:py-32 bg-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Image */}
+          {/* Image - DINÁMICA */}
           <div className="relative">
             <div className="aspect-[4/5] relative overflow-hidden">
               <Image
-                src="/about-image.jpg"
-                alt="Nuestra historia"
+                src={displayImage} // URL de Sanity o local
+                alt="Nuestra historia y taller - MAISON"
                 fill
                 className="object-cover"
               />
@@ -18,7 +25,7 @@ export function About() {
             <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-accent hidden md:block" />
           </div>
 
-          {/* Content */}
+          {/* Content - HARDCODED */}
           <div>
             <p className="text-sm uppercase tracking-widest text-accent mb-3">Sobre Nosotros</p>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-foreground leading-tight">
@@ -35,6 +42,7 @@ export function About() {
                 Nuestro compromiso va más allá de la moda: buscamos crear piezas atemporales que te acompañen durante años, adaptándose a cada etapa de tu vida.
               </p>
             </div>
+            {/* Stats */}
             <div className="mt-10 grid grid-cols-3 gap-8">
               <div>
                 <p className="font-serif text-3xl md:text-4xl text-foreground">500+</p>

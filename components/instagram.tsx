@@ -2,43 +2,51 @@ import Image from "next/image"
 import { Instagram } from "lucide-react"
 import Link from "next/link"
 
-const instagramPosts = [
-  { id: 1, image: "/instagram/post-1.jpg", alt: "Post de Instagram 1" },
-  { id: 2, image: "/instagram/post-2.jpg", alt: "Post de Instagram 2" },
-  { id: 3, image: "/instagram/post-3.jpg", alt: "Post de Instagram 3" },
-  { id: 4, image: "/instagram/post-4.jpg", alt: "Post de Instagram 4" },
-  { id: 5, image: "/instagram/post-5.jpg", alt: "Post de Instagram 5" },
-  { id: 6, image: "/instagram/post-6.jpg", alt: "Post de Instagram 6" },
-]
+interface InstagramSectionProps {
+  images?: string[] // Prop opcional para el array de imágenes de Sanity
+}
 
-export function InstagramSection() {
+export function InstagramSection({ images }: InstagramSectionProps) {
+  // 6 posts locales por defecto por si Sanity está vacío
+  const defaultPosts = [
+    "/instagram/post-1.jpg", "/instagram/post-2.jpg", "/instagram/post-3.jpg",
+    "/instagram/post-4.jpg", "/instagram/post-5.jpg", "/instagram/post-6.jpg"
+  ]
+
+  // Usamos el array de Sanity si tiene fotos, sino el por defecto
+  const displayPosts = images?.length ? images : defaultPosts
+
+  // HARDCODED: El usuario de Instagram
+  const instagramUsername = "maison.bolsos"
+  const instagramUrl = `https://instagram.com/${instagramUsername.replace('@', '')}`
+
   return (
     <section id="instagram" className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Section Header - HARDCODED textos */}
         <div className="text-center mb-12">
           <p className="text-sm uppercase tracking-widest text-accent mb-3">Síguenos</p>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-foreground">
-            @maison.bolsos
+            @{instagramUsername}
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
             Inspírate con nuestros looks y sé parte de nuestra comunidad
           </p>
         </div>
 
-        {/* Instagram Grid */}
+        {/* Instagram Grid - DINÁMICO */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
-          {instagramPosts.map((post) => (
+          {displayPosts.map((postSrc, index) => (
             <Link
-              key={post.id}
-              href="https://instagram.com"
+              key={index} // Usamos el índice porque son solo URLs
+              href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative aspect-square overflow-hidden bg-muted"
             >
               <Image
-                src={post.image}
-                alt={post.alt}
+                src={postSrc} // URL de Sanity o local
+                alt={`Maison Bolsos - Instagram Post ${index + 1}`}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -49,10 +57,10 @@ export function InstagramSection() {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA - HARDCODED link */}
         <div className="mt-10 text-center">
           <Link
-            href="https://instagram.com"
+            href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-foreground hover:text-accent transition-colors"
